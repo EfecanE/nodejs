@@ -47,37 +47,46 @@ exports.getIndex = (req, res, next) => {
 };
 
 exports.getCart = (req, res, next) => {
-  Cart.getCart((cartDetails) => {
-    Product.fetchAll((products) => {
-      let cartProducts = [];
-      let cartTotalPrice = 0;
+  req.user
+    .getCart()
+    .then((cart) => {
+      cart
+        .getProducts()
+        .then((products) => {
+          res.render("shop/cart", {
+            path: "/cart",
+            pageTitle: "Your Cart",
+            products: products,
+          });
+        })
+        .catch((err) => console.log(err));
+    })
+    .catch((err) => console.log(err));
 
-      if (cartDetails.products.length > 0) {
-        cartTotalPrice = cartDetails.totalPrice;
-        products.forEach((product) => {
-          let productToAdd = cartDetails.products.find(
-            (cartProduct) => product.id == cartProduct.id
-          );
-          if (productToAdd) {
-            cartProducts.push({
-              productData: product,
-              productQty: productToAdd.qty,
-              productTotalPrice: product.price * productToAdd.qty,
-            });
-          }
-        });
-      }
+  // Cart.getCart((cartDetails) => {
+  //   Product.fetchAll((products) => {
+  //     let cartProducts = [];
+  //     let cartTotalPrice = 0;
 
-      console.log(cartProducts);
+  //     if (cartDetails.products.length > 0) {
+  //       cartTotalPrice = cartDetails.totalPrice;
+  //       products.forEach((product) => {
+  //         let productToAdd = cartDetails.products.find(
+  //           (cartProduct) => product.id == cartProduct.id
+  //         );
+  //         if (productToAdd) {
+  //           cartProducts.push({
+  //             productData: product,
+  //             productQty: productToAdd.qty,
+  //             productTotalPrice: product.price * productToAdd.qty,
+  //           });
+  //         }
+  //       });
+  //     }
 
-      res.render("shop/cart", {
-        path: "/cart",
-        pageTitle: "Your Cart",
-        products: cartProducts,
-        totalPrice: cartTotalPrice,
-      });
-    });
-  });
+  //     console.log(cartProducts);
+  //   });
+  // });
 };
 
 exports.getOrders = (req, res, next) => {
