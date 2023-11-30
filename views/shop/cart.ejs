@@ -5,36 +5,47 @@
         <%- include('../includes/navigation.ejs') %>
         <main>
             <% if (products.length > 0) { %>
-                <div class="grid">
-                    <% for (let product of products) { %>
-                        <article class="card product-item">
-                            <header class="card__header">
-                                <h1 class="product__title">
-                                    <%= product.productData.title %>
-                                </h1>
-                            </header>
-                            <div class="card__image">
-                                <img src="<%= product.productData.imageUrl %>" alt="<%= product.productData.title %>">
-                            </div>
-                            <div class="card__content">
-                                <h2 class="product__price">
-                                    $<%= product.productData.price %>
-                                </h2>
-                                <p class="product__description">
-                                    <%= product.productData.description %>
-                                </p>
-                                <p>
-                                    Quantity: <%= product.productQty %>
-                                </p>
-                            </div>
-                            <div class="card__actions">
-                                <a href="/products/<%= product.productData.id %>" class="btn">Details</a>
-                                <form action="/cart-delete-item/<%= product.productData.id %>" method="post">
-                                    <button type="submit" class="btn">Delete</button>
-                                </form>
-                            </div>
-                        </article>
-                        <% } %>
+                <div class="column-flex">
+                    <div class="grid">
+                        <% for (let product of products) { %>
+                            <article class="card product-item">
+                                <header class="card__header">
+                                    <h1 class="product__title">
+                                        <%= product.title %>
+                                    </h1>
+                                </header>
+                                <div class="card__image">
+                                    <img src="<%= product.imageUrl %>" alt="<%= product.title %>">
+                                </div>
+                                <div class="card__content">
+                                    <h2 class="product__price">
+                                        $<%= product.price  %>
+                                    </h2>
+                                    <p class="product__description">
+                                        <%= product.description %>
+                                    </p>
+                                    <p>
+                                        Quantity: <%= product.cartItem.quantity %>
+                                    </p>
+                                    <h2 class="product__price">
+                                        <p>Total Price:</p> <%= product.price * product.cartItem.quantity %>
+                                    </h2>
+                                
+                                </div>
+                                <div class="card__actions">
+                                    <a href="/products/<%= product.id %>" class="btn">Details</a>
+                                    <form action="/cart-delete-item/<%= product.id %>" method="post">
+                                        <button type="submit" class="btn">Delete</button>
+                                    </form>
+                                </div>
+                            </article>
+                            <% } %>
+                    </div>
+                    <div class="centered-flex">
+                        <form action="/create-order" method="POST">
+                            <button class="btn" type="submit">Order Now!</button>
+                        </form>
+                    </div>
                 </div>
                 <% } else { %>
                     <h1>No Products Found!</h1>
