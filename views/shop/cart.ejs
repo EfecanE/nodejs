@@ -25,16 +25,16 @@
                                         <%= product.description %>
                                     </p>
                                     <p>
-                                        Quantity: <%= product.cartItem.quantity %>
+                                        Quantity: <%= product.quantity %>
                                     </p>
                                     <h2 class="product__price">
-                                        <p>Total Price:</p> <%= product.price * product.cartItem.quantity %>
+                                        <p>Total Price:</p> <%= product.price * product.quantity %>
                                     </h2>
                                 
                                 </div>
                                 <div class="card__actions">
-                                    <a href="/products/<%= product.id %>" class="btn">Details</a>
-                                    <form action="/cart-delete-item/<%= product.id %>" method="post">
+                                    <a href="/products/<%= product._id %>" class="btn">Details</a>
+                                    <form action="/cart-delete-item/<%= product._id %>" method="post">
                                         <button type="submit" class="btn">Delete</button>
                                     </form>
                                 </div>
