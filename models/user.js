@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const ObjectId = mongoose.Types.ObjectId;
 
 const Schema = mongoose.Schema;
 
@@ -43,6 +44,16 @@ userSchema.methods.addToCart = function (product) {
     items: updatedCartItems,
   };
   this.cart = updatedCart;
+  return this.save();
+};
+
+userSchema.methods.deleteFromCart = function (productId) {
+  const updatedCartProducts = this.cart.items.filter((product) => {
+    return !product.productId === new ObjectId(productId);
+  });
+
+  this.cart.items = updatedCartProducts;
+
   return this.save();
 };
 
