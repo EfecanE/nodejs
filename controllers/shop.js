@@ -8,6 +8,7 @@ exports.getProducts = (req, res, next) => {
         prods: products,
         pageTitle: "All Products",
         path: "/products",
+        isAuthenticated: req.session.user,
       });
     })
     .catch((err) => console.log(err));
@@ -21,6 +22,7 @@ exports.getProduct = (req, res, next) => {
         product: product,
         pageTitle: product.title,
         path: "/products",
+        isAuthenticated: req.session.user,
       });
     })
     .catch((err) => console.log(err));
@@ -33,7 +35,6 @@ exports.postCart = (req, res, next) => {
       return req.user.addToCart(product);
     })
     .then((result) => {
-      console.log(result);
       res.redirect("/cart");
     })
     .catch((err) => console.log(err));
@@ -46,6 +47,7 @@ exports.getIndex = (req, res, next) => {
         prods: products,
         pageTitle: "Shop",
         path: "/",
+        isAuthenticated: req.session.user,
       });
     })
     .catch((err) => console.log(err));
@@ -60,6 +62,7 @@ exports.getCart = (req, res, next) => {
         path: "/cart",
         pageTitle: "Your Cart",
         products: products,
+        isAuthenticated: req.session.user,
       });
     })
     .catch((err) => console.log(err));
@@ -68,24 +71,14 @@ exports.getCart = (req, res, next) => {
 exports.getOrders = (req, res, next) => {
   Order.find({ "user.userId": req.user._id })
     .then((orders) => {
-      console.log(orders);
       res.render("shop/orders", {
         orders: orders,
         path: "/orders",
         pageTitle: "Your Orders",
+        isAuthenticated: req.session.user,
       });
     })
     .catch((err) => console.log(err));
-  // req.user
-  //   .getOrders()
-  //   .then((orders) => {
-  //     res.render("shop/orders", {
-  //       orders: orders,
-  //       path: "/orders",
-  //       pageTitle: "Your Orders",
-  //     });
-  //   })
-  //   .catch((err) => console.log(err));
 };
 
 exports.postCartDeleteItem = (req, res, next) => {
@@ -106,7 +99,6 @@ exports.postOrder = (req, res, next) => {
           quantity: i.quantity,
         };
       });
-      console.log(products);
       const order = new Order({
         user: {
           name: req.user.name,
