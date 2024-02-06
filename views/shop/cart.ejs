@@ -44,6 +44,7 @@
                     <div class="centered-flex">
                         <form action="/create-order" method="POST">
                             <button class="btn" type="submit">Order Now!</button>
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
                         </form>
                     </div>
                 </div>

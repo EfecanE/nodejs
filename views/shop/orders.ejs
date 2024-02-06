@@ -15,8 +15,8 @@
                                 <% for (let p of order.products) { %>
                                     <li>
                                         <h2><%= p.product.title %></h2>
-                                        <p>Quantity: <%= p.product.quantity %></p>
-                                        <p>Price: <%= p.product.price %></p>
+                                        <p>Quantity: <%= p.quantity %></p>
+                                        <p>Price: <%= p.product.price * p.quantity %></p>
                                     </li>
                                 <% } %>
                             </ul>
